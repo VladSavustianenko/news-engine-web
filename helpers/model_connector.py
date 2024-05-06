@@ -1,6 +1,8 @@
+import os
+
 import requests
 
-model_url = 'http://127.0.0.1:1000'
+model_url = os.getenv("MODEL_URL")
 
 headers = {
     'Content-type': 'application/json',
