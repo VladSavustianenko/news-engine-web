@@ -5,14 +5,14 @@ from flask_socketio import emit
 
 from domain.connection import Connection
 from helpers.functions import authorisation_required
-from utils import socketio
+# from utils import socketio
 
 
 # Global dictionary to track user connections
 user_connections = {}
 
 
-@socketio.on('connect')
+# @socketio.on('connect')
 @authorisation_required
 def test_connect(session):
     print('Client connected', session.user_id, request.sid)
@@ -26,7 +26,7 @@ def test_connect(session):
     }
 
 
-@socketio.on('disconnect')
+# @socketio.on('disconnect')
 def test_disconnect():
     connection_info = user_connections.pop(request.sid, None)
 

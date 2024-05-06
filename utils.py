@@ -3,7 +3,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from flask_socketio import SocketIO
+# from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -25,7 +25,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['JWT_SECRET_KEY'] = 'JWT_SECRET_KEY'
 app.config['SECRET_KEY'] = 'secret!'
 
-socketio = SocketIO(app, cors_allowed_origins="*")
+# socketio = SocketIO(app, cors_allowed_origins="*")
 
 db = SQLAlchemy(app)
 jwt = JWTManager()
