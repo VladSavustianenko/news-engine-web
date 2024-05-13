@@ -1,9 +1,24 @@
+from datetime import datetime, timedelta
+
 from domain.topic import Topic
 from utils import db
 from sqlalchemy import func, select
 
 
-def select_latest_topics_of_all_categories(number: int, exclude_ids=[]):
+def select_latest_topics_of_all_categories(exclude_ids=[]):
+    # Calculate the date 10 days ago from today
+    ten_days_ago = datetime.utcnow() - timedelta(days=10)
+
+    # Query to get the latest topics from the last 10 days, excluding the specified IDs
+    latest_topics = db.session.query(Topic).filter(
+        Topic.publish_date >= ten_days_ago,
+        ~Topic.id.in_(exclude_ids)
+    ).order_by(Topic.publish_date.desc())
+
+    return latest_topics
+
+
+def select_latest_topics_of_all_categories_by_number(number: int, exclude_ids=[]):
     # Define an inner query to use ROW_NUMBER() over a partition by section, ordered by publish_date descending
     inner_stmt = db.session.query(
         Topic.id,

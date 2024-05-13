@@ -7,14 +7,14 @@ from domain.view_history import ViewHistory
 from helpers.functions import authorisation_required
 from helpers.model_connector import fetch_recommendations, fetch_general_recommendations, collaborative_filter
 from helpers.models import TopicDTO, FullTopicDTO, BaseTopicDTO, ViewHistoryDTO, SEARCH_TYPE
-from helpers.queries import select_latest_topics_of_all_categories
+from helpers.queries import select_latest_topics_of_all_categories_by_number, select_latest_topics_of_all_categories
 from utils import app, db
 
 
 @app.route('/api/news', methods=['GET'])
 @authorisation_required
 def get_news():
-    latest_topics = select_latest_topics_of_all_categories(1).all()
+    latest_topics = select_latest_topics_of_all_categories_by_number(1).all()
 
     # Format the results
     result = [TopicDTO(topic).to_dict() for topic in latest_topics]
@@ -169,7 +169,7 @@ def get_general_recommendations(session):
             .all()
         ][:30]
 
-        latest_topics = select_latest_topics_of_all_categories(50, last_views_ids).all()
+        latest_topics = select_latest_topics_of_all_categories(last_views_ids).all()
 
         topics = [BaseTopicDTO(topic).to_dict() for topic in latest_topics]
 
@@ -207,7 +207,7 @@ def get_recommendations(session, id):
                       .all()
                       ][:30]
 
-    latest_topics = select_latest_topics_of_all_categories(50, last_views_ids).filter(Topic.id != base_topic.id).all()
+    latest_topics = select_latest_topics_of_all_categories(last_views_ids).filter(Topic.id != base_topic.id).all()
 
     topics = [BaseTopicDTO(topic).to_dict() for topic in latest_topics]
 
