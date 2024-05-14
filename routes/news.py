@@ -154,7 +154,7 @@ def get_general_recommendations(session):
     views_ids = [item[0] for item in db.session.query(ViewHistory.topic_id).filter(ViewHistory.user_id == session.user_id).distinct().all()]
     recommended_ids = []
 
-    if not len(views_ids) or len(views_ids) < 5:
+    if not len(views_ids) or len(views_ids) < 2:
         ids = [ViewHistoryDTO(item[0], item[1]).to_dict() for item in db.session.query(ViewHistory.user_id, ViewHistory.topic_id).filter(
             ViewHistory.user_id != session.user_id).all()]
         recommended_ids = collaborative_filter(ids)['ids']
