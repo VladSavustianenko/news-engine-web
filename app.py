@@ -3,6 +3,7 @@ import os
 from utils import db, app
 from routes.user import *
 from routes.news import *
+from routes.info import *
 # from routes.socket import *
 
 port = int(os.environ.get("PORT", 5000))
